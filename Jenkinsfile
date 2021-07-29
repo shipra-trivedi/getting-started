@@ -1,6 +1,6 @@
 
 node {
-    def mvnHome = tool 'Maven'
+    def mvnHome = tool 'Maven 3'
     registryName = "MyNewConReg"
     registryUrl = "mynewconreg.azurecr.io"
     registryCredential= "MyNewConReg"

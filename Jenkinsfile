@@ -1,29 +1,26 @@
 pipeline {
     options {
-        timeout(time: 1, unit: 'HOURS')
-    }
+             timeout(time: 1, unit: 'HOURS')
+            }
     agent {
-        label 'ubuntu-1804 && amd64 && docker'
-    }
+            label 'ubuntu-1804 && amd64 && docker'
+          }
     stages {
-        stage('build and push') {
-              script {
+        stage('build and push') 
+        {    
            when {
-                branch 'master'
-            }
+                  branch 'master'
+                }
             sh("docker build -t docker/getting-started .")
-
-            steps { 
-                parallel(
-                        "step 1": {  withDockerRegistry([url: "", credentialsId: "dockerbuildbot-index.docker.io"])
+            steps
+            { 
+                parallel( "step 1": 
+                         {  withDockerRegistry([url: "", credentialsId: "dockerbuildbot-index.docker.io"])
                     {
-                    sh("docker push docker/getting-started")
-                } }
-                        
-                )
-               
-            }
-            
+                     sh("docker push docker/getting-started")
+                    } 
+                         } ) 
+            }            
         }
     }
 }

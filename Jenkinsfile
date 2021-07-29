@@ -12,10 +12,10 @@ node {
          checkout scm
           }
     
-    stage('Build'){
-        echo "Into Build"
-        sh "${mvnHome}/bin/mvn clean install -f pom.xml"
-          }
+   // stage('Build'){
+  //      echo "Into Build"
+     //   sh "${mvnHome}/bin/mvn clean install -f pom.xml"
+     //     }
     
     stage ('Build Docker image'){
         echo "Into buiding docker image"

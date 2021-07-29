@@ -13,12 +13,15 @@ pipeline {
             }
             sh("docker build -t docker/getting-started .")
 
-            steps {
-                step{
-                withDockerRegistry([url: "", credentialsId: "dockerbuildbot-index.docker.io"]) {
+            steps { 
+                parallel(
+                        "step 1": {  withDockerRegistry([url: "", credentialsId: "dockerbuildbot-index.docker.io"])
+                    {
                     sh("docker push docker/getting-started")
-                }
-                }
+                } }
+                        
+                )
+               
             }
             
         }

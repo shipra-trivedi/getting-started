@@ -30,9 +30,9 @@ node {
  
    stage('AKS deploy'){
        sh 'az aks install-cli'
-        sh 'az account set --subscription 80194c30-342a-4c69-b593-be125c916264'
+    //    sh 'az account set --subscription 80194c30-342a-4c69-b593-be125c916264'
         sh 'az login'
-        sh 'az aks get-credentials --resource-group sujanavmdemo --name sujanakube'
+     //   sh 'az aks get-credentials --resource-group sujanavmdemo --name sujanakube'
         sh 'kubectl apply -f k8s-deployment.yaml'
  
     } 

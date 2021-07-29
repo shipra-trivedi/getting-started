@@ -23,9 +23,9 @@ node {
           }
           
     stage('ACR Push') {
-        sh "az acr login -n myakacrregistry --username myakacrregistry --password tlQv=XzxYOf/Ix8+tZj/Uj3lFelycVjG"
-        sh " docker tag testimage myakacrregistry.azurecr.io/testimage:latest"
-        sh " docker push myakacrregistry.azurecr.io/testimage:latest"
+        sh "az acr login -n MyNewConReg --username mynewconreg --password e7WuJxuypxNedQn6Jlj0betVvZ=cFqXH"
+        sh " docker tag testimage mynewconreg.azurecr.io/javaapp1"
+        sh " docker push mynewconreg.azurecr.io/javaapp1"
          }
  
   //  stage('AKS deploy'){

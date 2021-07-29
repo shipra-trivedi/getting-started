@@ -1,57 +1,41 @@
-pipeline {
-     agent any
-     
-        environment {
-        //once you create ACR in Azure cloud, use that here
-        registryName = "mynewconreg/myjavaapp1"
-        //- update your credentials ID after creating credentials for connecting to ACR
-        registryCredential = 'mynewconreg'
-        dockerImage = ''
-        registryUrl = 'mynewconreg.azurecr.io'
-    }
+
+node {
+    def mvnHome = tool 'Maven'
+    registryName = "MyNewConReg"
+    registryUrl = "mynewconreg.azurecr.io"
+    registryCredential= "MyNewConReg"
     
-    stages {
-
-        stage ('checkout') {
-            steps {
-            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/shipra-trivedi/getting-started.git']]])
-            }
-        }
-       
-        stage ('Build Docker image') {
-            steps {
-                
-                script {
-                    dockerImage = docker.build registryName
-                }
-            }
-        }
-       
-    // Uploading Docker images into ACR
-    stage('Upload Image to ACR') {
-     steps{   
-         script {
-            docker.withRegistry( "http://${registryUrl}", registryCredential ) {
-            dockerImage.push()
-            }
-        }
-      }
-    }
-
-       // Stopping Docker containers for cleaner Docker run
-     stage('stop previous containers') {
-         steps {
-            sh 'docker ps -f name=mypythonContainer -q | xargs --no-run-if-empty docker container stop'
-            sh 'docker container ls -a -fname=mypythonContainer -q | xargs -r docker container rm'
+    
+    stage('checkout'){
+        echo "Into Checkout"
+        //checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Sujana-Suresh/myPythonDockerRepo.git']]])
+         checkout scm
+          }
+    
+    stage('Build'){
+        echo "Into Build"
+        sh "${mvnHome}/bin/mvn clean install -f pom.xml"
+          }
+    
+    stage ('Build Docker image'){
+        echo "Into buiding docker image"
+        docker.build registryName
+          }
+          
+    stage('ACR Push') {
+        sh "az acr login -n myakacrregistry --username myakacrregistry --password tlQv=XzxYOf/Ix8+tZj/Uj3lFelycVjG"
+        sh " docker tag testimage myakacrregistry.azurecr.io/testimage:latest"
+        sh " docker push myakacrregistry.azurecr.io/testimage:latest"
          }
-       }
-      
-    stage('Docker Run') {
-     steps{
-         script {
-                sh 'docker run -d -p 8096:5000 --rm --name mypythonContainer ${registryUrl}/${registryName}'
-            }
-      }
-    }
-    }
- }
+ 
+  //  stage('AKS deploy'){
+     //   sh 'az aks install-cli'
+        //sh 'az account set --subscription 80194c30-342a-4c69-b593-be125c916264'
+        //sh 'az login'
+   //     sh 'az aks get-credentials --resource-group sujanavmdemo --name sujanakube'
+     //   sh 'kubectl apply -f k8s-deployment.yaml'
+ 
+   // } 
+    
+  }
+

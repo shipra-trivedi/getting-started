@@ -8,7 +8,7 @@ node {
     
     stage('checkout'){
         echo "Into Checkout"
-        //checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Sujana-Suresh/myPythonDockerRepo.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/shipra-trivedi/getting-started.git']]])
          checkout scm
           }
     

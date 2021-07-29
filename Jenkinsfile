@@ -5,7 +5,7 @@ pipeline {
         //once you create ACR in Azure cloud, use that here
         registryName = "mynewconreg/myjavaapp1"
         //- update your credentials ID after creating credentials for connecting to ACR
-        registryCredential = 'ACR'
+        registryCredential = 'mynewconreg'
         dockerImage = ''
         registryUrl = 'mynewconreg.azurecr.io'
     }

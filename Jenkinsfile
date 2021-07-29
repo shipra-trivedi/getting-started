@@ -20,7 +20,7 @@ pipeline {
                      sh("docker push docker/getting-started")
                     } 
                          } ) 
-            }            
+                       
         }
     }
 }
